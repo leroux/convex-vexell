@@ -1,0 +1,9 @@
+[submodule "ChibiOS-RT"]
+	path = ChibiOS-RT
+	url = https://github.com/ChibiOS/ChibiOS-RT.git
+[submodule "convex"]
+	path = convex
+	url = https://github.com/jpearman/convex.git
+[submodule "snatch-idiom"]
+	path = docs/snatch-idiom
+	url = https://github.com/ajhc/snatch-idiom
