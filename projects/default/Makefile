@@ -6,6 +6,7 @@ include setup.mk
 
 all: $(HSDIR)/hs_main.c
 	make -f forc.mk
+	cortexflash -X -w bin/output.bin -v /dev/tty.usbmodem1420
 
 $(HSDIR)/hs_main.c: hs_src/Main.hs
 	mkdir -p $(HSDIR)

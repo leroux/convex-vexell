@@ -8,7 +8,7 @@ void intakeSystemIntakeSet(short s) {
 }
 
 void intakeSystemIntake(void) {
-  if (vexControllerGet(Btn5U)) {
+  if (vexControllerGet(Btn5U) || vexDigitalPinGet(kVexDigital_3) == kVexDigitalLow) {
     intakeSystemIntakeSet(INTAKE_IN * SMAX);
   } else if (vexControllerGet(Btn5D)) {
     intakeSystemIntakeSet(INTAKE_OUT * SMAX);

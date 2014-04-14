@@ -1,4 +1,4 @@
-# Uncomment to redine locations
+# Uncomment to redefine locations
 VEXELL = ../../vexell
 CHIBIOS = $(VEXELL)/../ChibiOS-RT
 CONVEX  = $(VEXELL)/../convex/convex/cortex

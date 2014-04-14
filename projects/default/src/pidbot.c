@@ -36,14 +36,18 @@ static vexMotorCfg motorConfig[kVexMotorNum] = {
 void vexUserSetup() {
   vexDigitalConfigure(digitalConfig, DIG_CONFIG_SIZE(digitalConfig));
   vexMotorConfigure(motorConfig, MOT_CONFIG_SIZE(motorConfig));
+
+  //hs_vexUserSetup();
 }
 
 void vexUserInit() {
   //StartTask(safetyTask); // safety first? (LOWPRIO?) -_-
   //StartTaskWithPriority(apolloTask, LOWPRIO); // done via shell in main
+
+  //hs_vexUserInit();
 }
 
-task vexOperator(void *arg) {
+task c_vexOperator(void *arg) {
   (void)arg;
   vexTaskRegister("operator");
 
@@ -59,7 +63,7 @@ task vexOperator(void *arg) {
   return (task)0;
 }
 
-task vexAutonomous(void *arg) {
+task c_vexAutonomous(void *arg) {
   (void)arg;
   vexTaskRegister("auton");
 

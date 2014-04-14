@@ -75,7 +75,7 @@ task armTask(void *arg) {
 
   while (!chThdShouldTerminate()) {
     armSystemLift();
-    vexSleep(1);
+    vexSleep(25);
   }
 
   return (task)0;
