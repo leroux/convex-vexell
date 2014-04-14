@@ -1,7 +1,7 @@
 #include "rts/conc.h"
 
-#define THREADS_STACK_SIZE 512
-#define NUM_THREADS 5
+#define THREADS_STACK_SIZE 512 // try different sizes
+#define NUM_THREADS 10 // 10 like RobotC?
 static char pool_buf[(THD_WA_SIZE(THREADS_STACK_SIZE)) * NUM_THREADS];
 static MEMORYPOOL_DECL(pool_descriptor, THD_WA_SIZE(THREADS_STACK_SIZE), NULL);
 
@@ -30,14 +30,7 @@ void forkOS_createThread_init() {
 jhc_threadid_t forkOS_createThread(void *(*wrapper)(void *), void *entry, int *err) {
   Thread *tid;
 
-  // use heap instead of memory pool
-  //
-  // http://www.chibios.org/dokuwiki/doku.php?id=chibios:howtos:createthread
-  // chThdCreateFromHeap(NULL, THD_WA_SIZE(128), NORMALPRIO+1,
-  //                                 myThread, NULL);
-  //
   tid = chThdCreateFromMemoryPool(&pool_descriptor, NORMALPRIO, (tfunc_t) wrapper, entry);
-  //tid = chThdCreateFromHeap(NULL, THD_WA_SIZE(THREADS_STACK_SIZE), NORMALPRIO+1, (tfunc_t) wrapper, entry);
 
   if (NULL == tid) {
     abort();

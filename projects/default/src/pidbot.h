@@ -77,6 +77,7 @@ task driveTask(void *arg);
 
 void armSystemLiftSet(short s);
 void armSystemLift(void);
+void armInit(void);
 task armTask(void *arg);
 
 void intakeSystemIntakeSet(short s);

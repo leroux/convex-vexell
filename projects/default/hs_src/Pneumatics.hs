@@ -1,5 +1,20 @@
-module Pneumatics (pneumaticsTask) where
+module Pneumatics (threadPneumatics) where
 
-foreign import capi "c_extern.h pneumaticsTask" c_pneumaticsTask :: IO ()
-pneumaticsTask :: IO ()
-pneumaticsTask = c_pneumaticsTask
+import ChibiOS.Threads
+
+import Foreign.C.Types
+import Control.Monad
+
+foreign import capi "c_extern.h pneumaticsInit"
+  c_pneumaticsInit :: IO ()
+pneumaticsInit = c_pneumaticsInit
+
+foreign import capi "c_extern.h pneumaticsSystemUpdate"
+  c_pneumaticsSystemUpdate :: IO ()
+pneumaticsSystemUpdate = c_pneumaticsSystemUpdate
+
+pneumatics :: IO ()
+pneumatics = pneumaticsSystemUpdate >> sleep 25
+
+threadPneumatics :: IO ()
+threadPneumatics = pneumaticsInit >> forever pneumatics

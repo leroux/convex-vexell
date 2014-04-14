@@ -30,13 +30,11 @@ hs_vexUserInit :: IO ()
 hs_vexUserInit = return ()
 
 vexOperator :: IO ()
---vexOperator = void $ forkOS intakeTask
---vexOperator = mapM_ (void . forkOS) [armTask, intakeTask]
-vexOperator = mapM_ (void . forkOS) [driveTask, armTask, intakeTask, pneumaticsTask]
+vexOperator = mapM_ (void . forkOS) [threadArm, threadDrive, threadIntake, threadPneumatics]
 
 vexAutonomous :: IO ()
 vexAutonomous = do
-  mapM_ forkOS [armTask]
+  mapM_ (void . forkOS) [threadArm]
   void autonomous
 
 main :: IO ()

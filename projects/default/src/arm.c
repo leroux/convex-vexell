@@ -66,12 +66,14 @@ void armSystemLift(void) {
   }
 }
 
+void armInit(void) {
+  armPID = PidControllerInit(0.01, 0, 0, armEnc, 1); // Kp, Ki, Kd. Needs tweaking.
+  vexSensorValueSet(armEnc, 0);
+}
+
 task armTask(void *arg) {
   (void)arg;
   vexTaskRegister("arm");
-
-  armPID = PidControllerInit(0.01, 0, 0, armEnc, 1); // Kp, Ki, Kd. Needs tweaking.
-  vexSensorValueSet(armEnc, 0);
 
   while (!chThdShouldTerminate()) {
     armSystemLift();

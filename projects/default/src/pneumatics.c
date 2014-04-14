@@ -7,19 +7,25 @@ void pneumaticsSystemSet(tVexDigitalState s) {
   vexDigitalPinSet(solenoid_2, s);
 }
 
+void pneumaticsInit(void) {
+  pneumaticsSystemSet(kVexDigitalLow);
+}
+
+void pneumaticsSystemUpdate(void) {
+  if (vexControllerGet(Btn7U) || vexControllerGet(Btn7UXmtr2)) { // lock
+    pneumaticsSystemSet(kVexDigitalHigh);
+    vexMotorSet(rightIntake, 127); // rm this
+  } else if (vexControllerGet(Btn7D) || vexControllerGet(Btn7DXmtr2)) { // unlock
+    pneumaticsSystemSet(kVexDigitalLow);
+  }
+}
+
 task pneumaticsTask(void *arg) {
   (void)arg;
   vexTaskRegister("pneumatics");
 
-  pneumaticsSystemSet(kVexDigitalLow);
-
   while (!chThdShouldTerminate()) {
-    if (vexControllerGet(Btn7U) || vexControllerGet(Btn7UXmtr2)) { // lock
-      pneumaticsSystemSet(kVexDigitalHigh);
-    } else if (vexControllerGet(Btn7D) || vexControllerGet(Btn7DXmtr2)) { // unlock
-      pneumaticsSystemSet(kVexDigitalLow);
-    }
-
+    pneumaticsSystemDo();
     vexSleep(25);
   }
 
