@@ -1,7 +1,8 @@
 #include "rts/conc.h"
 
-#define THREADS_STACK_SIZE 512 // try different sizes
-#define NUM_THREADS 10 // 10 like RobotC?
+#define THREADS_STACK_SIZE 512
+#define NUM_THREADS 5
+
 static char pool_buf[(THD_WA_SIZE(THREADS_STACK_SIZE)) * NUM_THREADS];
 static MEMORYPOOL_DECL(pool_descriptor, THD_WA_SIZE(THREADS_STACK_SIZE), NULL);
 

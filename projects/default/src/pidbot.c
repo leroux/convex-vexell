@@ -4,8 +4,8 @@
 
 // Digital I/O configuration
 static vexDigiCfg digitalConfig[kVexDigital_Num] = {
-  { solenoid_1,     kVexSensorDigitalOutput, kVexConfigOutput, 0 },
-  { solenoid_2,     kVexSensorDigitalOutput, kVexConfigOutput, 0 },
+  { armLock,        kVexSensorDigitalOutput, kVexConfigOutput, 0 },
+  { hangerLock,     kVexSensorDigitalOutput, kVexConfigOutput, 0 },
   { kVexDigital_3,  kVexSensorDigitalInput,  kVexConfigInput,  0 },
   { kVexDigital_4,  kVexSensorDigitalInput,  kVexConfigInput,  0 },
   { kVexDigital_5,  kVexSensorDigitalInput,  kVexConfigInput,  0 },
@@ -36,15 +36,11 @@ static vexMotorCfg motorConfig[kVexMotorNum] = {
 void vexUserSetup() {
   vexDigitalConfigure(digitalConfig, DIG_CONFIG_SIZE(digitalConfig));
   vexMotorConfigure(motorConfig, MOT_CONFIG_SIZE(motorConfig));
-
-  //hs_vexUserSetup();
 }
 
+// Pre-autonomous
 void vexUserInit() {
-  //StartTask(safetyTask); // safety first? (LOWPRIO?) -_-
-  //StartTaskWithPriority(apolloTask, LOWPRIO); // done via shell in main
-
-  //hs_vexUserInit();
+  // ...
 }
 
 task c_vexOperator(void *arg) {
@@ -54,7 +50,8 @@ task c_vexOperator(void *arg) {
   StartTask(driveTask); // drive
   StartTask(armTask); // arm
   StartTask(intakeTask); // intake
-  StartTask(pneumaticsTask); // pneumatics
+  StartTask(armLockTask);
+  StartTask(hangerLockTask);
 
   while (!chThdShouldTerminate()) { // sleep forever
     vexSleep(25);

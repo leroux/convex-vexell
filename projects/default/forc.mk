@@ -11,7 +11,7 @@ endif
 
 # C specific options here (added to USE_OPT).
 ifeq ($(USE_COPT),)
-  USE_COPT = 
+  USE_COPT =
 endif
 
 # C++ specific options here (added to USE_OPT).
@@ -101,7 +101,7 @@ LDSCRIPT= $(CONVEX)/ld/STM32F103xD.ld
 # setting.
 # replaced standard shell with custom variant
 # $(CHIBIOS)/os/various/shell.c \
-       
+
 CSRC = $(PORTSRC) \
        $(KERNSRC) \
        $(TESTSRC) \
@@ -168,9 +168,9 @@ USE_OPT += -Wno-unused-parameter -fno-strict-aliasing -D_GNU_SOURCE
 USE_OPT += -DNDEBUG -D_JHC_GC=_JHC_GC_JGC -D_JHC_STANDALONE=0 -D_JHC_USE_OWN_STDIO
 USE_OPT += -D_LITTLE_ENDIAN
 USE_OPT += -D_JHC_ARM_STAY_IN_THUMB_MODE
-USE_OPT += -D_JHC_JGC_STACKGROW=16 -D_JHC_JGC_LIMITED_NUM_MEGABLOCK=3
+USE_OPT += -D_JHC_JGC_STACKGROW=16 -D_JHC_JGC_LIMITED_NUM_MEGABLOCK=5
 USE_OPT += -D_JHC_JGC_BLOCK_SHIFT=8 -D_JHC_JGC_MEGABLOCK_SHIFT=13
-USE_OPT += -D_JHC_JGC_GC_STACK_SHIFT=8 -D_JHC_JGC_LIMITED_NUM_GC_STACK=4
+USE_OPT += -D_JHC_JGC_GC_STACK_SHIFT=8 -D_JHC_JGC_LIMITED_NUM_GC_STACK=5
 USE_OPT += -D_JHC_JGC_NAIVEGC -D_JHC_JGC_SAVING_MALLOC_HEAP
 USE_OPT += -D_JHC_CONC=_JHC_CONC_CUSTOM
 
@@ -229,7 +229,7 @@ DADEFS =
 DINCDIR =
 
 # List the default directory to look for the libraries here
-DLIBDIR = 
+DLIBDIR =
 
 # List all default libraries here
 DLIBS =

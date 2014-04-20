@@ -1,6 +1,7 @@
 TRGT  = arm-none-eabi-
-GDB   = $(TRGT)gdb
 HSDIR = build_haskell
+
+HSLIBS =
 
 include setup.mk
 
@@ -10,20 +11,8 @@ all: $(HSDIR)/hs_main.c
 
 $(HSDIR)/hs_main.c: hs_src/Main.hs
 	mkdir -p $(HSDIR)
-	ajhc -fffi --tdir=$(HSDIR) -C --include=hs_src --include=$(VEXELL)/src -o $@ $<
+	ajhc -fffi -pjhc-1.0 -ptransformers-0.2.1.0 --tdir=$(HSDIR) -C --include=hs_src --include=$(VEXELL)/src -o $@ $<
 
 clean:
 	rm -rf build_haskell
 	make -f forc.mk clean
-
-gdbwrite: all
-	@echo '################################################'
-	@echo '##### Use me after running "sudo st-util". #####'
-	@echo '################################################'
-	$(GDB) -x gdbwrite.boot build/ch.elf
-
-gdbattach: all
-	@echo '################################################'
-	@echo '##### Use me after running "sudo st-util". #####'
-	@echo '################################################'
-	$(GDB) -x gdbattach.boot build/ch.elf

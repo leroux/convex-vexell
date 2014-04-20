@@ -41,6 +41,6 @@ void autonomous(void) {
   vexSleep(3000);
 
   // lock pneumatics
-  pneumaticsSystemSet(kVexDigitalHigh);
+  armLockSystemSet(kVexDigitalHigh);
   armSystemLiftSet(0);
 }

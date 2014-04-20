@@ -14,11 +14,13 @@
 #include "robotc_glue.h" // for ROBOTC-like tasks
 #include "pidlib.h"
 
+#include "control_config.c"
+
 // ---------------------------------
 // Port Constants
 
-#define solenoid_1 kVexDigital_1
-#define solenoid_2 kVexDigital_2
+#define hangerLock kVexDigital_1
+#define armLock kVexDigital_2
 
 // #define autonomousSelect kVexAnalog_2
 
@@ -84,8 +86,9 @@ void intakeSystemIntakeSet(short s);
 void intakeSystemIntake(void);
 task intakeTask(void *arg);
 
-void pneumaticsSystemSet(tVexDigitalState s);
-task pneumaticsTask(void *arg);
+task armLockTask(void *arg);
+
+task hangerLockTask(void *arg);
 
 task apolloTask(void *arg);
 task safetyTask(void *arg);
