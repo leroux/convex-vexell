@@ -7,3 +7,6 @@
 [submodule "snatch-idiom"]
 	path = docs/snatch-idiom
 	url = https://github.com/ajhc/snatch-idiom
+[submodule "projects/pidbot-vexell"]
+	path = projects/pidbot-vexell
+	url = https://github.com/leroux/pidbot-vexell
