@@ -2,18 +2,18 @@
 
 #include "pidbot.h"
 
-void intakeSystemIntakeSet(short s) {
+void intakeSet(short s) {
   vexMotorSet(leftIntake, s);
   vexMotorSet(rightIntake, s);
 }
 
-void intakeSystemIntake(void) {
-  if (vexControllerGet(Btn5U) || vexDigitalPinGet(kVexDigital_3) == kVexDigitalLow) {
-    intakeSystemIntakeSet(INTAKE_IN * SMAX);
-  } else if (vexControllerGet(Btn5D)) {
-    intakeSystemIntakeSet(INTAKE_OUT * SMAX);
+void intakeRun(void) {
+  if (vexControllerGet(BTN_INTAKE_IN)) {
+    intakeSet(INTAKE_IN * SMAX);
+  } else if (vexControllerGet(BTN_INTAKE_OUT)) {
+    intakeSet(INTAKE_OUT * SMAX);
   } else {
-    intakeSystemIntakeSet(0);
+    intakeSet(0);
   }
 }
 
@@ -22,7 +22,7 @@ task intakeTask(void *arg) {
   vexTaskRegister("intake");
 
   while (!chThdShouldTerminate()) {
-    intakeSystemIntake();
+    intakeRun();
     vexSleep(25);
   }
 

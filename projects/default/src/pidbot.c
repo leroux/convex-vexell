@@ -6,24 +6,24 @@
 static vexDigiCfg digitalConfig[kVexDigital_Num] = {
   { armLock,        kVexSensorDigitalOutput, kVexConfigOutput, 0 },
   { hangerLock,     kVexSensorDigitalOutput, kVexConfigOutput, 0 },
-  { kVexDigital_3,  kVexSensorDigitalInput,  kVexConfigInput,  0 },
-  { kVexDigital_4,  kVexSensorDigitalInput,  kVexConfigInput,  0 },
+  { kVexDigital_3,  kVexSensorDigitalOutput, kVexConfigOutput, 0 },
+  { kVexDigital_4,  kVexSensorDigitalOutput, kVexConfigOutput, 0 },
   { kVexDigital_5,  kVexSensorDigitalInput,  kVexConfigInput,  0 },
   { kVexDigital_6,  kVexSensorDigitalInput,  kVexConfigInput,  0 },
   { kVexDigital_7,  kVexSensorDigitalInput,  kVexConfigInput,  0 },
   { kVexDigital_8,  kVexSensorDigitalInput,  kVexConfigInput,  0 },
   { kVexDigital_9,  kVexSensorDigitalInput,  kVexConfigInput,  0 },
   { kVexDigital_10, kVexSensorDigitalInput,  kVexConfigInput,  0 },
-  { kVexDigital_11, kVexSensorDigitalInput,  kVexConfigInput,  0 },
-  { kVexDigital_12, kVexSensorDigitalInput,  kVexConfigInput,  0 }
+  { sonarInput,     kVexConfigSonarIn,       kVexSensorSonarCm, 0 },
+  { sonarOutput,    kVexConfigSonarOut,      kVexSensorSonarCm, 0 }
 };
 
 // Motor configuration
 // Note: 4 amps per motor group (1-5, 6-10).
 static vexMotorCfg motorConfig[kVexMotorNum] = {
   { rightIntake,     kVexMotor393S, kVexMotorNormal,   kVexSensorNone, 0 },
-  { rightFront,      kVexMotor393S, kVexMotorReversed, kVexSensorNone, 0 },
-  { rightBack,       kVexMotor393S, kVexMotorNormal,   kVexSensorNone, 0 },
+  { rightFront,      kVexMotor393S, kVexMotorNormal,   kVexSensorNone, 0 },
+  { rightBack,       kVexMotor393S, kVexMotorReversed, kVexSensorNone, 0 },
   { rightTopLift,    kVexMotor393T, kVexMotorNormal,   kVexSensorNone, 0 },
   { rightBottomLift, kVexMotor393T, kVexMotorNormal,   kVexSensorNone, 0 },
   { leftTopLift,     kVexMotor393T, kVexMotorReversed, kVexSensorIME,  kImeChannel_1 },

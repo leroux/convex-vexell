@@ -1,18 +1,13 @@
-module Drive (drive, threadDrive) where
+module Drive (driveRun, threadDrive) where
+
+import ChibiOS
 
 import Foreign.C.Types
 import Control.Monad
 
-import ChibiOS.Threads
-
-foreign import capi "c_extern.h driveTask"
-  c_driveTask :: IO ()
-driveTask = c_driveTask
-
-foreign import capi "c_extern.h driveSystemArcadeDrive"
-  c_driveSystemArcadeDrive :: IO ()
-drive :: IO ()
-drive = c_driveSystemArcadeDrive
+foreign import capi "c_extern.h driveRun"
+  c_driveRun :: IO ()
+driveRun = c_driveRun
 
 threadDrive :: IO ()
-threadDrive = forever $ drive >> sleep 20
+threadDrive = forever $ driveRun >> sleep 20

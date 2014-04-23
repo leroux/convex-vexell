@@ -1,9 +1,6 @@
 {-# LANGUAGE ForeignFunctionInterface #-}
 module Main where
 
-import Control.Concurrent
-import Control.Monad
-
 import Vexell
 import Autonomous
 import Arm
@@ -13,6 +10,9 @@ import HangerLock
 import Intake
 
 import ChibiOS
+
+import Control.Concurrent
+import Control.Monad
 
 foreign export ccall "hs_vexUserSetup" vexUserSetup :: IO ()
 foreign export ccall "hs_vexUserInit" vexUserInit :: IO ()
@@ -44,8 +44,10 @@ vexAutonomous = do
 ---------------------------------------
 
 vexOperator_multiThread :: IO ()
-vexOperator_multiThread = mapM_ (void . forkOS) [threadArm, threadDrive, threadIntake,
-                                                 threadArmLock, threadHangerLock]
+vexOperator_multiThread = do
+  armInit >> armLockInit >> hangerLockInit
+  mapM_ (void . forkOS)
+    [threadArm, threadDrive, threadIntake]
 
 -- throw all subsystem threads into one (use until threading works again)
 vexOperator_singleThread :: IO ()
@@ -54,7 +56,7 @@ vexOperator_singleThread = do
   armInit >> armLockInit >> hangerLockInit
   -- run subsystems forever
   forever $ do
-    arm >> drive >> intake >> armLock >> hangerLock
+    armRun >> driveRun >> intakeRun >> armLockRun >> hangerLockRun
     sleep 20
 
 -- hs main is called from c main().

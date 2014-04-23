@@ -6,7 +6,7 @@ include setup.mk
 
 # Compiler options here.
 ifeq ($(USE_OPT),)
-  USE_OPT = -O2 -ggdb -fomit-frame-pointer -falign-functions=16
+  USE_OPT = -O2 -ggdb -fomit-frame-pointer -falign-functions=16 -fgnu89-inline
 endif
 
 # C specific options here (added to USE_OPT).
@@ -81,7 +81,7 @@ CONVEX  = $(VEXELL)/../convex/convex/cortex
 endif
 
 # Imported source files and paths
-include $(CONVEX)/boards/VEX_STM32_CORTEX/board.mk
+include boards/VEX_STM32_CORTEX/board.mk
 include $(CHIBIOS)/os/hal/platforms/STM32F1xx/platform.mk
 include $(CHIBIOS)/os/hal/hal.mk
 include $(CHIBIOS)/os/ports/GCC/ARMCMx/STM32F1xx/port.mk
@@ -168,9 +168,9 @@ USE_OPT += -Wno-unused-parameter -fno-strict-aliasing -D_GNU_SOURCE
 USE_OPT += -DNDEBUG -D_JHC_GC=_JHC_GC_JGC -D_JHC_STANDALONE=0 -D_JHC_USE_OWN_STDIO
 USE_OPT += -D_LITTLE_ENDIAN
 USE_OPT += -D_JHC_ARM_STAY_IN_THUMB_MODE
-USE_OPT += -D_JHC_JGC_STACKGROW=16 -D_JHC_JGC_LIMITED_NUM_MEGABLOCK=5
+USE_OPT += -D_JHC_JGC_STACKGROW=16 -D_JHC_JGC_LIMITED_NUM_MEGABLOCK=3
 USE_OPT += -D_JHC_JGC_BLOCK_SHIFT=8 -D_JHC_JGC_MEGABLOCK_SHIFT=13
-USE_OPT += -D_JHC_JGC_GC_STACK_SHIFT=8 -D_JHC_JGC_LIMITED_NUM_GC_STACK=5
+USE_OPT += -D_JHC_JGC_GC_STACK_SHIFT=8 -D_JHC_JGC_LIMITED_NUM_GC_STACK=2
 USE_OPT += -D_JHC_JGC_NAIVEGC -D_JHC_JGC_SAVING_MALLOC_HEAP
 USE_OPT += -D_JHC_CONC=_JHC_CONC_CUSTOM
 

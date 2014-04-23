@@ -1,4 +1,4 @@
-module Vexell.Controller (JoyButton, JoyAxis, buttonGet, axisGet) where
+module Vexell.Controller where
 
 import Foreign
 import Foreign.C.Types
@@ -45,4 +45,8 @@ buttonGet b = do
       return $ v == 1
 
 axisGet :: JoyAxis -> IO CInt
-axisGet a = undefined
+axisGet a = do
+  let i = axisToIndex a
+  case i of
+    Nothing -> return 0
+    Just x -> vexControllerGet x

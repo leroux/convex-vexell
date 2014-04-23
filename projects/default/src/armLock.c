@@ -2,21 +2,18 @@
 
 #include "pidbot.h"
 
-void armLockSystemSet(tVexDigitalState s) {
-  vexDigitalPinSet(armLock, s);
-}
+int armLockPressed = 0;
 
 void armLockInit(void) {
-  armLockSystemSet(kVexDigitalLow);
+  vexDigitalPinSet(armLock, kVexDigitalLow);
 }
 
-void armLockSystemUpdate(void) {
-  if (vexControllerGet(Btn7U) || vexControllerGet(Btn7UXmtr2)) { // lock
-    armLockSystemSet(kVexDigitalHigh);
-    vexMotorSet(rightIntake, 127); // rm this
-  } else if (vexControllerGet(Btn7D) || vexControllerGet(Btn7DXmtr2)) { // unlock
-    armLockSystemSet(kVexDigitalLow);
+void armLockRun(void) {
+  if(!armLockPressed && vexControllerGet(BTN_ARM_LOCK_TOGGLE)) {
+    vexDigitalPinSet(armLock, 1 - vexDigitalPinGet(armLock));
+    vexDigitalPinSet(kVexDigital_3, 1 - vexDigitalPinGet(kVexDigital_3));
   }
+  armLockPressed = vexControllerGet(BTN_ARM_LOCK_TOGGLE);
 }
 
 task armLockTask(void *arg) {
@@ -24,7 +21,7 @@ task armLockTask(void *arg) {
   vexTaskRegister("arm lock");
 
   while (!chThdShouldTerminate()) {
-    armLockSystemUpdate();
+    armLockRun();
     vexSleep(25);
   }
 

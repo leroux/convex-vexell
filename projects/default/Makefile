@@ -1,8 +1,6 @@
 TRGT  = arm-none-eabi-
 HSDIR = build_haskell
 
-HSLIBS =
-
 include setup.mk
 
 all: $(HSDIR)/hs_main.c

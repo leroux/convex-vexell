@@ -51,6 +51,11 @@
 #include "smartmotor.h"
 #include "apollo.h"
 
+void malloc_init(void);
+void forkOS_createThread_init();
+void hs_init(void *a, void *b);
+void _amain(void);
+
 /*-----------------------------------------------------------------------------*/
 /* Command line related.                                                       */
 /*-----------------------------------------------------------------------------*/

@@ -1,18 +1,18 @@
-module Arm (armInit, arm, threadArm) where
+module Arm (armInit, armRun, threadArm) where
+
+import ChibiOS
 
 import Foreign.C.Types
 import Control.Monad
-
-import ChibiOS.Threads
 
 foreign import capi "c_extern.h armInit"
   c_armInit :: IO ()
 armInit = c_armInit
 
-foreign import capi "c_extern.h armSystemLift"
-  c_armSystemLift :: IO ()
-arm :: IO ()
-arm = c_armSystemLift
+foreign import capi "c_extern.h armRun"
+  c_armRun :: IO ()
+armRun :: IO ()
+armRun = c_armRun
 
 threadArm :: IO ()
-threadArm = armInit >> (forever $ arm >> sleep 20)
+threadArm = armInit >> (forever $ armRun >> sleep 20)

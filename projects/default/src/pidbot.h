@@ -14,13 +14,13 @@
 #include "robotc_glue.h" // for ROBOTC-like tasks
 #include "pidlib.h"
 
-#include "control_config.c"
-
 // ---------------------------------
 // Port Constants
 
 #define hangerLock kVexDigital_1
 #define armLock kVexDigital_2
+#define sonarInput kVexDigital_11
+#define sonarOutput kVexDigital_12
 
 // #define autonomousSelect kVexAnalog_2
 
@@ -36,6 +36,25 @@
 #define rightBottomLift kVexMotor_5
 #define leftTopLift kVexMotor_6
 #define leftBottomLift kVexMotor_7
+
+// ---------------------------------
+// Controller Mappings
+
+#define BTN_LIFT_UP Btn6U
+#define BTN_LIFT_DOWN Btn6D
+#define BTN_LIFT_FLOOR Btn8D
+#define BTN_LIFT_BUMP Btn8R
+#define BTN_LIFT_STASH Btn8L
+#define BTN_LIFT_HANG Btn8U // lift up to height and then activate hangLock
+
+#define BTN_INTAKE_IN Btn5U
+#define BTN_INTAKE_OUT Btn5D
+
+#define BTN_ARM_LOCK_TOGGLE Btn7D
+#define BTN_HANGER_LOCK_TOGGLE Btn7U
+
+#define CH_Y Ch3
+#define CH_X Ch1
 
 // ---------------------------------
 // Constants
@@ -70,24 +89,28 @@ extern "C" {
 
 extern pidController *armPID;
 
-void driveSystemArcadeDrive(void);
-void driveSystemSetL(short l);
-void driveSystemSetR(short r);
-void driveSystemSet(short l, short r);
-void driveSystemSetVector(short y, short x);
+void driveRun(void);
+void driveSetLeft(short l);
+void driveSetRight(short r);
+void driveSet(short l, short r);
+void driveSetVector(short y, short x);
 task driveTask(void *arg);
 
-void armSystemLiftSet(short s);
-void armSystemLift(void);
+void armSet(short s);
 void armInit(void);
+void armRun(void);
 task armTask(void *arg);
 
-void intakeSystemIntakeSet(short s);
-void intakeSystemIntake(void);
+void intakeSet(short s);
+void intakeRun(void);
 task intakeTask(void *arg);
 
+void armLockInit(void);
+void armLockRun(void);
 task armLockTask(void *arg);
 
+void hangerLockInit(void);
+void hangerLockRun(void);
 task hangerLockTask(void *arg);
 
 task apolloTask(void *arg);

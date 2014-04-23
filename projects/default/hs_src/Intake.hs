@@ -1,18 +1,25 @@
-module Intake (intake, threadIntake) where
+module Intake (intakeSet, intakeRun, threadIntake) where
+
+import ConfigMap
+
+import Vexell
+import ChibiOS
 
 import Foreign.C.Types
 import Control.Monad
 
-import ChibiOS.Threads
+intakeSet :: CInt -> IO ()
+intakeSet v = mapM_ (flip motorSet $ v) [leftIntake, rightIntake]
 
-foreign import capi "c_extern.h intakeSystemIntakeSet"
-  c_intakeSystemIntakeSet :: CShort -> IO ()
-intakeSystemIntakeSet = c_intakeSystemIntakeSet
-
-foreign import capi "c_extern.h intakeSystemIntake"
-  c_intakeSystemIntake :: IO ()
-intake :: IO ()
-intake = c_intakeSystemIntake
+intakeRun :: IO ()
+intakeRun = do
+  intakeIn  <- buttonGet btnIntakeIn
+  intakeOut <- buttonGet btnIntakeOut
+  intakeSet $ nextState intakeIn intakeOut
+  where nextState b1 b2
+          | b1 = 127
+          | b2 = (-127)
+          | otherwise = 0
 
 threadIntake :: IO ()
-threadIntake = forever $ intake >> sleep 20
+threadIntake = forever $ intakeRun >> sleep 20

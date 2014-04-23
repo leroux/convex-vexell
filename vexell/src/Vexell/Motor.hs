@@ -1,4 +1,4 @@
-module Vexell.Motor (vexMotorGet, vexMotorSet) where
+module Vexell.Motor (motorPort, motorGet, motorSet) where
 
 import Foreign.C.Types
 import Jhc.Type.C
@@ -24,10 +24,12 @@ data MotorConfig =
 
 foreign import capi "c_extern.h vexMotorSet"
   c_vexMotorSet :: CInt -> CInt -> IO ()
-vexMotorSet :: MotorPort -> CInt -> IO ()
-vexMotorSet (MotorPort p) v = c_vexMotorSet p v
+motorSet :: Maybe MotorPort -> CInt -> IO ()
+motorSet Nothing _ = return ()
+motorSet (Just (MotorPort p)) v = c_vexMotorSet p v
 
 foreign import capi "c_extern.h vexMotorGet"
   c_vexMotorGet :: CInt -> IO CInt
-vexMotorGet :: MotorPort -> IO CInt
-vexMotorGet (MotorPort p) = c_vexMotorGet p
+motorGet :: Maybe MotorPort -> IO CInt
+motorGet Nothing = return 0
+motorGet (Just (MotorPort p)) = c_vexMotorGet p

@@ -7,34 +7,34 @@
 
 pidController *armPID;
 
-void armSystemLiftSet(short s) {
+void armSet(short s) {
   vexMotorSet(leftTopLift, s);
   vexMotorSet(leftBottomLift, s);
   vexMotorSet(rightTopLift, s);
   vexMotorSet(rightBottomLift, s);
 }
 
-void armSystemLift(void) {
-  if (vexControllerGet(Btn8U) || vexControllerGet(Btn8UXmtr2)) { // stash waypoint
+void armRun(void) {
+  if (vexControllerGet(BTN_LIFT_STASH) || vexControllerGet(Btn8UXmtr2)) { // stash waypoint
     armPID->target_value = LIFT_STASH_HEIGHT;
-  } else if (vexControllerGet(Btn8L) || vexControllerGet(Btn8LXmtr2)) { // bump waypoint
+  } else if (vexControllerGet(BTN_LIFT_BUMP) || vexControllerGet(Btn8LXmtr2)) { // bump waypoint
     armPID->target_value = LIFT_BUMP_HEIGHT;
-  } else if (vexControllerGet(Btn8D) || vexControllerGet(Btn8DXmtr2)) { // floor waypoint
+  } else if (vexControllerGet(BTN_LIFT_FLOOR) || vexControllerGet(Btn8DXmtr2)) { // floor waypoint
     armPID->target_value = LIFT_FLOOR_HEIGHT;
-  } else if (vexControllerGet(Btn8R) || vexControllerGet(Btn8RXmtr2)) { // hang waypoint
+  } else if (vexControllerGet(BTN_LIFT_HANG) || vexControllerGet(Btn8RXmtr2)) { // hang waypoint
     armPID->target_value = LIFT_HANG_HEIGHT;
-  } else if (vexControllerGet(Btn6U) || vexControllerGet(Btn6UXmtr2)) { // move arm up
+  } else if (vexControllerGet(BTN_LIFT_UP) || vexControllerGet(Btn6UXmtr2)) { // move arm up
 #ifdef LIFT_OVERRIDE
     armPID->enabled = 0;
-    armSystemLiftSet(LIFT_UP * SMAX);
+    armSet(LIFT_UP * SMAX);
     armPID->target_value = vexMotorPositionGet(leftTopLift);
 #else
     armPID->target_value += 20;
 #endif
-  } else if (vexControllerGet(Btn6D) || vexControllerGet(Btn6DXmtr2)) { // move arm down
+  } else if (vexControllerGet(BTN_LIFT_DOWN) || vexControllerGet(Btn6DXmtr2)) { // move arm down
 #ifdef LIFT_OVERRIDE
     armPID->enabled = 0;
-    armSystemLiftSet(LIFT_DOWN * SMAX);
+    armSet(LIFT_DOWN * SMAX);
     armPID->target_value = vexMotorPositionGet(leftTopLift);
 #else
     armPID->target_value -= 25;
@@ -62,7 +62,7 @@ void armSystemLift(void) {
   // }
 
   if (armPID->enabled) {
-    armSystemLiftSet(PidControllerUpdate(armPID)); // ...and FIRE!!!
+    armSet(PidControllerUpdate(armPID)); // ...and FIRE!!!
   }
 }
 
@@ -76,7 +76,7 @@ task armTask(void *arg) {
   vexTaskRegister("arm");
 
   while (!chThdShouldTerminate()) {
-    armSystemLift();
+    armRun();
     vexSleep(25);
   }
 

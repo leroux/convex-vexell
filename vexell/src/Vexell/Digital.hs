@@ -1,27 +1,11 @@
-module Vexell.Digital (
-  -- Functions
-  vexDigitalModeSet,
-  vexDigitalModeGet,
-  vexDigitalPinSet,
-  vexDigitalPinGet,
-  vexDigitalIntrSet,
-  vexDigitalIntrRun,
-  vexDigitalIntrCountGet,
-  vexExtIrqInit,
-  -- Datar
-  PinNumber,
-  DigitalPin,
-  DigitalMode,
-  DigitalState
-) where
+module Vexell.Digital where
 
 import Foreign
 import Foreign.C.Types
 import Jhc.Type.C
-import Data.Int
 import Data.Maybe
 
-type PinNumber = Int
+type PinNumber = CInt
 data DigitalPin = DigitalPin PinNumber
 data DigitalMode = DigitalInput | DigitalOutput deriving (Enum)
 data DigitalState = Low | High deriving (Enum)
@@ -31,24 +15,33 @@ digitalPin n
   | n < 0 || n > 12 = Nothing -- pins bound check
   | otherwise       = Just $ DigitalPin n
 
+digitalState :: DigitalState -> CInt
+digitalState High = 1
+digitalState Low  = 0
+digitalState _    = 0
+
 foreign import capi "c_extern.h vexDigitalModeSet"
-  c_vexDigitalModeSet :: CShort -> CShort -> IO ()
+  c_vexDigitalModeSet :: CInt -> CInt -> IO ()
 vexDigitalModeSet = c_vexDigitalModeSet
 
 foreign import capi "c_extern.h vexDigitalModeGet"
-  c_vexDigitalModeGet :: CShort -> IO CShort
+  c_vexDigitalModeGet :: CInt -> IO CInt
 vexDigitalModeGet = c_vexDigitalModeGet
 
 foreign import capi "c_extern.h vexDigitalPinSet"
-  c_vexDigitalPinSet :: CShort -> CShort -> IO ()
-vexDigitalPinSet = c_vexDigitalPinSet
+  c_vexDigitalPinSet :: CInt -> CInt -> IO ()
+digitalPinSet :: Maybe DigitalPin -> DigitalState -> IO ()
+digitalPinSet Nothing _ = return ()
+digitalPinSet (Just (DigitalPin p)) s = c_vexDigitalPinSet p $ digitalState s
 
 foreign import capi "c_extern.h vexDigitalPinGet"
-  c_vexDigitalPinGet :: CShort -> IO CShort
-vexDigitalPinGet = c_vexDigitalPinGet
+  c_vexDigitalPinGet :: CInt -> IO CInt
+digitalPinGet :: Maybe DigitalPin -> IO CInt
+digitalPinGet Nothing = return 0
+digitalPinGet (Just (DigitalPin p)) = c_vexDigitalPinGet p
 
 foreign import capi "c_extern.h vexDigitalIntrSet"
-  c_vexDigitalIntrSet :: CShort -> IO ()
+  c_vexDigitalIntrSet :: CInt -> IO ()
 vexDigitalIntrSet = c_vexDigitalIntrSet
 
 foreign import capi "c_extern.h vexDigitalIntrRun"
@@ -56,7 +49,7 @@ foreign import capi "c_extern.h vexDigitalIntrRun"
 vexDigitalIntrRun = c_vexDigitalIntrRun
 
 foreign import capi "c_extern.h vexDigitalIntrCountGet"
-  c_vexDigitalIntrCountGet :: CShort -> IO CWint
+  c_vexDigitalIntrCountGet :: CInt -> IO CWint
 vexDigitalIntrCountGet = c_vexDigitalIntrCountGet
 
 foreign import capi "c_extern.h vexExtIrqInit"
