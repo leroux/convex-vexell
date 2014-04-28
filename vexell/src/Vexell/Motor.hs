@@ -6,11 +6,6 @@ import Jhc.Type.C
 type PinNumber = CInt
 newtype MotorPort = MotorPort PinNumber
 
-motorPort :: PinNumber -> Maybe MotorPort
-motorPort n
-  | n < 1 || n > 10 = Nothing
-  | otherwise = Just $ MotorPort (n - 1)
-
 data MotorType = MotorUndefined | Motor269 | Motor393T | Motor393S deriving (Enum)
 
 data Polarity = Normal | Reversed
@@ -21,6 +16,11 @@ data MotorConfig =
     mType :: MotorType,
     mPolarity :: Polarity
   }
+
+motorPort :: PinNumber -> Maybe MotorPort
+motorPort n
+  | n < 1 || n > 10 = Nothing
+  | otherwise = Just $ MotorPort $ n - 1
 
 foreign import capi "c_extern.h vexMotorSet"
   c_vexMotorSet :: CInt -> CInt -> IO ()

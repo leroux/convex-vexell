@@ -10,3 +10,9 @@
 [submodule "projects/pidbot-vexell"]
 	path = projects/pidbot-vexell
 	url = https://github.com/leroux/pidbot-vexell
+[submodule "projects/speedracer"]
+	path = projects/speedracer
+	url = https://github.com/BellaireRobotics/speedracer
+[submodule "projects/pidbot-convex"]
+	path = projects/pidbot-convex
+	url = https://github.com/leroux/pidbot-convex
